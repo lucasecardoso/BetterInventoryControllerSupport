@@ -1,0 +1,13 @@
+﻿{
+    "Name" : "BetterInventoryControllerSupport",
+    "Author" : "Luke",
+    "Version" : {
+        "MajorVersion" : 0,
+        "MinorVersion" : 1,
+        "PatchedVersion" : 0,
+        "Build" : ""
+    },
+    "Description" : "Improves inventory controller support",
+    "UniqueID" : "BetterInventoryControllerSupport",
+    "EntryDll" : "BetterInventoryControllerSupport.dll"
+}
