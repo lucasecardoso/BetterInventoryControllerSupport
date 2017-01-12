@@ -39,6 +39,7 @@ namespace BetterInventoryControllerSupport
 
 				GameMenu gameMenu = (GameMenu)Game1.activeClickableMenu;
 				List<IClickableMenu> pages = reflection.GetPrivateField<List<IClickableMenu>>(gameMenu, "pages").GetValue();
+				List<ClickableComponent> tabs = reflection.GetPrivateField<List<ClickableComponent>>(gameMenu, "tabs").GetValue();
 				InventoryPage inventoryPage = (InventoryPage)pages[0];
 
 				if (inventoryPage == null)
@@ -54,16 +55,42 @@ namespace BetterInventoryControllerSupport
 				this.Monitor.Log($"Tile size: {Game1.tileSize}, vertical gap: {menu.verticalGap}, horizontal gap: {menu.horizontalGap}");
 
 				if (e.ButtonPressed == Buttons.DPadRight)
-					Mouse.SetPosition(hoveringComponent.bounds.X + Game1.tileSize + menu.horizontalGap, hoveringComponent.bounds.Y + 32);
+				{
+					int newX = hoveringComponent.bounds.X + Game1.tileSize + menu.horizontalGap;
+					int newY = hoveringComponent.bounds.Y + Game1.tileSize / 2;
+
+					if (menu.getInventoryPositionOfClick(newX, newY) > -1)
+						Mouse.SetPosition(newX, newY);
+				}
 
 				if (e.ButtonPressed == Buttons.DPadLeft)
-					Mouse.SetPosition(hoveringComponent.bounds.X - Game1.tileSize - menu.horizontalGap, hoveringComponent.bounds.Y + 32);
+				{
+					int newX = hoveringComponent.bounds.X - Game1.tileSize - menu.horizontalGap;
+					int newY = hoveringComponent.bounds.Y + Game1.tileSize / 2;
+
+					if (menu.getInventoryPositionOfClick(newX, newY) > -1)
+						Mouse.SetPosition(newX, newY);
+				}
 
 				if (e.ButtonPressed == Buttons.DPadUp)
-					Mouse.SetPosition(hoveringComponent.bounds.X, hoveringComponent.bounds.Y - Game1.tileSize - menu.verticalGap);
+				{
+					int newX = hoveringComponent.bounds.X;
+					int newY = hoveringComponent.bounds.Y - Game1.tileSize - menu.verticalGap;
+
+					if (menu.getInventoryPositionOfClick(newX, newY) > -1)
+						Mouse.SetPosition(newX, newY);
+					else
+						Mouse.SetPosition(tabs[0].bounds.X + tabs[0].bounds.Width/2, tabs[0].bounds.Y + tabs[0].bounds.Height/2);
+				}
 
 				if (e.ButtonPressed == Buttons.DPadDown)
-					Mouse.SetPosition(hoveringComponent.bounds.X, hoveringComponent.bounds.Y + Game1.tileSize + 32);
+				{
+					int newX = hoveringComponent.bounds.X;
+					int newY = hoveringComponent.bounds.Y + Game1.tileSize + Game1.tileSize / 2 + menu.verticalGap;
+
+					if (menu.getInventoryPositionOfClick(newX, newY) > -1)
+						Mouse.SetPosition(newX, newY);	
+				}
 			}
 		}
 
